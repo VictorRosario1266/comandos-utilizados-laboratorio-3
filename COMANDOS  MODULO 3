@@ -57,18 +57,4 @@
    - Conectarse via SSH sin contraseña:
      ssh usuario@<IP_de_la_VM>
 
-5. Comandos Adicionales para Diagnóstico y Reparación:
-   - Verificar el sistema de archivos:
-     fsck /dev/sdXn
-   - Reinstalar el kernel:
-     apt update
-     apt install --reinstall linux-image-$(uname -r)
-   - Actualizar GRUB:
-     update-grub
-   - Montar sistemas de archivos adicionales:
-     mount -t proc proc /mnt/proc
-     mount -t sysfs sys /mnt/sys
-     mount -o bind /dev /mnt/dev
-   - Cambiar al entorno del sistema con chroot:
-     chroot /mnt
 
