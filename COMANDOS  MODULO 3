@@ -1,0 +1,74 @@
+=== Comandos Utilizados en las Prácticas ===
+
+1. Configuración de GRUB:
+   - Editar el archivo de configuración de GRUB:
+     sudo nano /etc/default/grub
+   - Actualizar GRUB después de hacer cambios:
+     sudo update-grub
+   - Reiniciar el sistema:
+     sudo reboot
+
+2. Recuperación de Contraseña de Root:
+   - Cambiar la contraseña de root:
+     passwd root
+   - Montar el sistema de archivos en modo lectura/escritura:
+     mount -o remount,rw /
+   - Reiniciar el sistema:
+     reboot
+
+3. Creación de Scripts:
+   - Script 1: Backup de la Carpeta /home/(tu_usuario):
+     - Crear el script:
+       nano backup_home.sh
+     - Código del script:
+       #!/bin/bash
+       FECHA=$(date +%d-%m-%Y:%H:%M)
+       tar -czvf /home/$(whoami)/backup_$FECHA.tar.gz /home/$(whoami)
+       echo "Backup realizado en /home/$(whoami)/backup_$FECHA.tar.gz"
+     - Hacer el script ejecutable:
+       chmod +x backup_home.sh
+     - Ejecutar el script:
+       ./backup_home.sh
+
+   - Script 2: Copiar el Resultado de ifconfig en un Archivo:
+     - Crear el script:
+       nano ifconfig_copy.sh
+     - Código del script:
+       #!/bin/bash
+       echo "¿Qué nombre desea ponerle al archivo?"
+       read nombre_archivo
+       ifconfig > /home/$(whoami)/Escritorio/$nombre_archivo.txt
+       echo "Archivo creado en /home/$(whoami)/Escritorio/$nombre_archivo.txt"
+     - Hacer el script ejecutable:
+       chmod +x ifconfig_copy.sh
+     - Ejecutar el script:
+       ./ifconfig_copy.sh
+
+4. Configuración de SSH y Conexión desde Windows:
+   - Instalar el servidor SSH:
+     sudo apt-get install openssh-server
+   - Habilitar y arrancar el servicio SSH:
+     sudo systemctl enable ssh
+     sudo systemctl start ssh
+   - Generar un par de llaves SSH en Windows:
+     ssh-keygen -t rsa -b 4096
+   - Copiar la llave pública al servidor:
+     type $env:USERPROFILE\.ssh\id_rsa.pub | ssh usuario@<IP_de_la_VM> "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+   - Conectarse via SSH sin contraseña:
+     ssh usuario@<IP_de_la_VM>
+
+5. Comandos Adicionales para Diagnóstico y Reparación:
+   - Verificar el sistema de archivos:
+     fsck /dev/sdXn
+   - Reinstalar el kernel:
+     apt update
+     apt install --reinstall linux-image-$(uname -r)
+   - Actualizar GRUB:
+     update-grub
+   - Montar sistemas de archivos adicionales:
+     mount -t proc proc /mnt/proc
+     mount -t sysfs sys /mnt/sys
+     mount -o bind /dev /mnt/dev
+   - Cambiar al entorno del sistema con chroot:
+     chroot /mnt
+
